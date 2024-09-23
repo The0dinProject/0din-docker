@@ -20,6 +20,7 @@ echo "> NODE_ID         : $NODE_ID"
 echo "> NODE_PORT       : $NODE_PORT"
 echo "> URL             : $URL"
 echo "> KNOWN_NODES     : $KNOWN_NODES"
+echo "> DATABASE_URL    : $DATABASE_URL"
 echo
 echo "╭────────────────────────╮"
 echo "│ Configuring 0din... ⏳ │"

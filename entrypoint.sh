@@ -1,4 +1,7 @@
 #!/bin/bash
+latest_commit=$(git log -1 --pretty=format:"%H")
+latest_commit_full=$(git log -1 --pretty=format:"%H %cd" --date=local)
+setting_json_file="settings.json"
 echo
 echo "Welcome to..."
 echo '  ______     _ _       '
@@ -8,7 +11,8 @@ echo '| |// | |/ || | |  _ \ '
 echo '|  /__| ( (_| | | | | |'
 echo ' \_____/ \____|_|_| |_|'
 echo
-echo "Starting entrypoint..."
+echo "Latest commit : $latest_commit_full"
+echo "URL           : https://github.com/4rtemis-4rrow/0din/commit/$latest_commit"
 echo
 echo "╭───────────────────────╮"
 echo "│ Docker Env Vars... ⤵️  │"
@@ -20,21 +24,24 @@ echo "> NODE_ID         : $NODE_ID"
 echo "> NODE_PORT       : $NODE_PORT"
 echo "> URL             : $URL"
 echo "> KNOWN_NODES     : $KNOWN_NODES"
-echo "> DATABASE_URL    : $DATABASE_URL"
+echo "> DB_USER         : $DB_USER"
+echo "> DB_PASSWORD     : $DB_PASSWORD"
+echo "> DB_NAME         : $DB_NAME"
+echo "> DB_HOST         : $DB_HOST"
+echo "> DB_PORT         : $DB_PORT"
 echo
 echo "╭────────────────────────╮"
 echo "│ Configuring 0din... ⏳ │"
 echo "╰────────────────────────╯"
 echo
-echo "Updating NODE_ID & PORT_ID..."
+echo ">>> Updating NODE_ID & PORT_ID... ✅"
 setting_json_file="settings.json"
 sed -i -e "s/127.0.0.1/$NODE_ID/" -e "s/5000/$NODE_PORT/" "$setting_json_file"
-echo
-echo "Enabling flash debug..."
+echo ">>> Enabling flash debug...       ✅"
 FLASK_DEBUG=1
 echo
 echo "╭─────────────────────╮"
 echo "│ Starting 0din... 🚀 │"
 echo "╰─────────────────────╯"
 echo
-python Odin.py
+python 0din.py

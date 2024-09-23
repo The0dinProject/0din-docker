@@ -1,6 +1,6 @@
 #!/bin/bash
 latest_commit=$(git log -1 --pretty=format:"%H")
-latest_commit_full=$(git log -1 --pretty=format:"%H %cd" --date=local)
+latest_commit_full=$(git log -1 --pretty=format:"%H %cd %s" --date=local)
 setting_json_file="settings.json"
 echo
 echo "Welcome to..."

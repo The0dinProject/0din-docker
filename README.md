@@ -11,13 +11,14 @@ services:
     container_name: 0din
     image: pastagringo/0din-docker:latest
     volumes:
-      - ./SOURCES:/the/directory/to/be/shared
-      # - ./0din:/app/0din
+      - /share:/the/directory/to/be/shared
     environment:
-      - NODE_ID=${NODE_ID} # public IP address or DNS
-      - NODE_PORT=${NODE_PORT} # custom, default is 5000
-      - KNOWN_NODES=${KNOWN_NODES} # "node1:port1,node2:port2"
+      - NODE_ID=${NODE_ID} 
+      - NODE_PORT=${NODE_PORT}
+      - KNOWN_NODES=${KNOWN_NODES}
       - DB_PASSWORD=${DB_PASSWORD}
+      - ENABLE_SSL=${ENABLE_SSL}
+      - ENABLE_HTTPS_REDIRECT=${ENABLE_HTTPS_REDIRECT}
       - DB_USER=${DB_USER}
       - DB_NAME=${DB_NAME}
       - DB_HOST=${DB_HOST}
@@ -35,8 +36,8 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_DB=${DB_NAME}
-    # ports:
-    #   - 5432:5432
+    ports:
+      - 5432:5432
     volumes:
       - 0din-postgres-db:/var/lib/postgresql/data
     healthcheck:
@@ -51,12 +52,16 @@ volumes:
 .env :
 
 ```
-NODE_ID=
-NODE_PORT=
-KNOWN_NODES=
-DB_HOST=
-DB_USER=
-DB_PORT=
-DB_PASSWORD=
-DB_NAME=
+ADMIN_USER= # To be tested
+ADMIN_PASSWORD= # To be tested
+NODE_ID= # IP:PORT if no reverse proxy SSL ; FQDN if reverse proxy SSL : to be reached by other 0din nodes
+NODE_PORT=5000 # Default 0din listening port
+KNOWN_NODES= # IP:PORT if no reverse proxy SSL or FQDN if reverse proxy SSL : nodes to contact for first localsearch ; 
+ENABLE_SSL= # true/false(TO MODIFY) : enable 0din SSL support with auto-signed self-generated local certs
+ENABLE_HTTPS_REDIRECT= # true/false : enable if using reverse proxy SSL to allow https download URL
+DB_HOST=0din # default
+DB_USER=0din # default
+DB_PORT=5432 # default
+DB_PASSWORD=0din # default
+DB_NAME=0din # default
 ```

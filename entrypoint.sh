@@ -35,6 +35,11 @@ echo "╭───────────────────────�
 echo "│ Configuring 0din... ⏳ │"
 echo "╰────────────────────────╯"
 echo
+mv .env.example .env
+
+echo "Enter your name: "
+read node_id_input
+
 if [ "$ENABLE_HTTPS_REDIRECT" = "true" ]; then
     echo "ENABLE_HTTPS_REDIRECT is enabled."
     echo ">>> Updating NODE_ID & PORT_ID... ✅"

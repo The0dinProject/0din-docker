@@ -1,0 +1,72 @@
+version: '3'
+
+services:
+
+  gluetun:
+    image: qmcgaw/gluetun
+    # container_name: gluetun
+    # line above must be uncommented to allow external containers to connect.
+    # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/connect-a-container-to-gluetun.md#external-container-to-gluetun
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - 8888:8888/tcp # HTTP proxy
+      - 8388:8388/tcp # Shadowsocks
+      - 8388:8388/udp # Shadowsocks
+      # - 5000:5000
+      # - 5432:5432
+    volumes:
+      - ./gluetun:/gluetun
+    environment:
+      - VPN_SERVICE_PROVIDER=
+      - VPN_TYPE=
+      - WIREGUARD_PRIVATE_KEY=
+      - WIREGUARD_PRESHARED_KEY=
+      - WIREGUARD_ADDRESSES=
+      - SERVER_COUNTRIES=
+
+  0din:
+    container_name: 0din
+    image: pastagringo/0din-docker:latest
+    volumes:
+      - /share:/the/directory/to/be/shared
+    environment:
+      - NODE_ID=${NODE_ID} 
+      - NODE_PORT=${NODE_PORT}
+      - KNOWN_NODES=${KNOWN_NODES}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - ENABLE_SSL=${ENABLE_SSL}
+      - ENABLE_HTTPS_REDIRECT=${ENABLE_HTTPS_REDIRECT}
+      - DB_USER=${DB_USER}
+      - DB_NAME=${DB_NAME}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+    # ports:
+    #   - 5000:5000
+    depends_on:
+      - "0din-postgres"
+    network_mode: "service:gluetun"
+
+  0din-postgres:
+    container_name: 0din-postgres
+    image: postgres:14-alpine
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_DB=${DB_NAME}
+    # ports:
+    #   - 5432:5432
+    volumes:
+      - 0din-postgres-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    network_mode: "service:gluetun"
+
+volumes:
+  0din-postgres-db:

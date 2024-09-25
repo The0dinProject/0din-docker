@@ -58,7 +58,8 @@ services:
     ports:
       - 5000:5000
     depends_on:
-      - "0din-postgres"
+      0din-postgres:
+        condition: service_healthy
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.0din.rule=Host(`${NODE_ID}`)"
@@ -82,9 +83,9 @@ services:
       - 0din-postgres-db:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
-      interval: 30s
-      timeout: 30s
-      retries: 3
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   0din-postgres-db:

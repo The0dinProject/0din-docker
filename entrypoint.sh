@@ -12,7 +12,7 @@ echo '|  /__| ( (_| | | | | |'
 echo ' \_____/ \____|_|_| |_|'
 echo
 echo "Latest commit : $latest_commit_full"
-echo "URL           : https://github.com/4rtemis-4rrow/0din/commit/$latest_commit"
+echo "URL           : https://github.com/The0dinProject/0din-docker/commit/$latest_commit"
 echo
 echo "╭───────────────────────╮"
 echo "│ Docker Env Vars... ⤵️  │"

@@ -24,7 +24,7 @@ services:
 
   0din:
     container_name: 0din
-    image: pastagringo/0din-docker:latest
+    image: artemisarrow/0din-docker:latest
     volumes:
       - /share:/the/directory/to/be/shared
     environment:

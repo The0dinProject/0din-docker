@@ -3,7 +3,7 @@ version: '3'
 services:
 
  traefik:
-    image: "traefik:latest"
+    image: "traefik:testing"
     container_name: "traefik"
     restart: unless-stopped
     command:
@@ -41,7 +41,7 @@ services:
 
   0din:
     container_name: 0din
-    image: artemisarrow/0din-docker:latest
+    image: artemisarrow/0din-docker:testing
     volumes:
       - /share:/the/directory/to/be/shared
     environment:

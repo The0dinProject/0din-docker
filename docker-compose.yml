@@ -2,7 +2,7 @@ services:
 
   0din:
     container_name: 0din
-    image: artemisarrow/0din-docker:latest
+    image: artemisarrow/0din-docker:testing
     volumes:
       - shared-data:/the/directory/to/be/shared
     environment:
